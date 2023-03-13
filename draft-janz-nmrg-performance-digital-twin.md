@@ -4,7 +4,7 @@ coding: utf-8
 title: Functional Design Aspects of Performance-Oriented Digital Twins
  
 abbrev: Performance-Oriented Digital Twins
-docname: draft-janz-nmrg-functional-design-aspects-performance-digital-twin-00
+docname: draft-janz-nmrg-performance-digital-twin-00
 workgroup: Network Management Research Group
 category: info
 ipr: trust200902
