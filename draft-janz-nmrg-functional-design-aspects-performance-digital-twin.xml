@@ -43,12 +43,7 @@
     <abstract>
 
 
-<t>Performance-Oriented Digital Twins (PODTs) provide "what-if" analysis - predictions of performance or, 
-   perhaps, of other behaviours in hypothetical situations of network, services, traffic, etc. We discuss
-   key functional and design aspects of PODTs in support of multiple, concurrently-operating use case
-   Management Plane (MP) applications. Data and model management in concurrent session handling,
-   inter-working with variable composition (from data and functional model perspectives) networks,
-   performance and scalability are considered.</t>
+<t>Performance-Oriented Digital Twins (PODTs) provide "what-if" analysis - predictions of performance or, perhaps, of other behaviours in hypothetical situations of network, services, traffic, etc. Key functional and design aspects of PODTs in support of multiple, concurrently-operating use case Management Plane (MP) applications are discussed. Data and model management in concurrent session handling, inter-working with variable composition (from data and functional model perspectives) networks, performance and scalability are considered.</t>
 
 
 
@@ -77,7 +72,7 @@
    one, are considered in Section 6.</t>
 
 <t>In <xref target="I-D.draft-paillisse-nmrg-performance-digital-twin"/>, PODT implementation challenges
-   and certain implementation options - especially concerning key models - are discussed, 
+   and certain implementation options - especially concerning key functional models - are discussed, 
    as are required interfaces and related standards (Sections 4 and 7 of the reference, 
    respectively). This draft looks not at details of models or interfaces but rather at 
    general aspects of functional design. Several functional design principles are considered 
@@ -89,7 +84,7 @@
    What is different among such applications - or even among successive predictions sought by
    a single application - is not the nature of the behavioural or performance information yielded.
    The difference lies, rather, in the details of the scenarios for which prediction information 
-   is sought. A PODT supporting multiple concurrent functions and applications requires careful 
+   is sought. A PODT supporting multiple concurrent MP functions and applications requires careful 
    handling of data and modeling to accommodate differences in scenario-driven data used in (what
    amount to) parallel - or at least, different - computational sessions. This aspect is 
    considered in Section 3.</t>
@@ -109,7 +104,7 @@
    optimization-related applications) may require performance prediction on large numbers of different,
    detailed scenarios - requires high-performance PODT implementations. Models may be more or less 
    complicated and computationally intensive; data consumed may be considerable and run to large 
-   archived volumes over time. Performance and scalability considerations are considered in 
+   archived volumes over time. Performance and scalability considerations are discussed in 
    Section 5.</t>
 
 </section>
@@ -119,10 +114,8 @@
   <t>Network Digital Twin (NDT): a virtual replica of a real network (often referred to as a 
 'physical' network) that faithfully mimics the behaviours of the real network.</t>
   <t>Digital Network Twin (DNT): an alternative term for NDT.</t>
-  <t>Performance-Oriented Digital Twin (PODT):</t>
-  <t>Management Plane (MP):</t>
-  <t>Optical Performance Digital Twin (OPDT):</t>
-  <t>TO BE COMPLETED</t>
+  <t>Performance-Oriented Digital Twin (PODT): An analytical NDT generates performance-oriented information based on "what-if" scenarios specified by other Management Plane applications.</t>
+  <t>Optical Performance Digital Twin (OPDT): A PODT that generates optical transmission performance predictions.</t>
 </list></t>
 
 </section>
@@ -204,18 +197,17 @@
    Second, details of functional models invoked may differ depending on whether the counter-part to the 
    digital instance is real - i.e. deployed and potentially operating - or hypothetical. For example, in 
    the case of OPDTs, the important erbium-doped fibre amplifier (EDFA) network element is a critical 
-   focal point for functional modeling. As discussed in EDFA, such functional models may be - in increasing 
-   order of accuracy and precision - generic, type-specific but instance-generic, or both type- and 
+   focal point for functional modeling. Such functional models may be - in increasing 
+   order of accuracy and precision - generic, type-specific but instance-generic, or both type-and 
    instance-specific. Where the scenario-based network is fully deployed and operational, the latter models 
    may be available and will yield more accurate performance predictions than the alternatives; whereas 
    if the scenario-based network is entirely hypothetical (e.g. green field planning) then only 
-   instance-generic models may be available (and would be preferred to generic models). This issue will 
+   type-specific models may be available (and would be preferred to generic models). This issue will 
    be re-visited in Section 4.</t>
 
 <t>Finally, scenario-based computational session life cycles must be managed. Such sessions may be short-lived, 
    e.g. seeking one-time "what-if" scenario-based predictions; or, they may be long-lived, e.g. seeking 
-   continuous generation of prediction data as twin-based data evolves. MP application consumers of 
-   PODT-generated information control these life cycles, but PODT implementations must be equipped 
+   continuous generation of prediction data as real twin-sourced data evolves. MP application consumers of PODT-generated information control these life cycles, but PODT implementations must be equipped 
    to manage them.</t>
 
 </section>
@@ -270,9 +262,9 @@
    the posited fibre type and length. Data 'tables' may be dynamic and built up through increasing measurement 
    experience, and even PODT-based functional modeling experience, with respect to a given real or (partly)
    hypothetical network. Increasing effective data quality may thus yield improvements in performance prediction
-   quality over time - over and above the impacts of any experiential-based improvement to functional models.</t>
+   quality over time - over and above the impacts of any experience-driven improvement to functional models.</t>
 
-<t>It should also be noted that flexible conjoint use of data and models may yield available ways to verify 
+<t>It should also be noted that flexible conjoint use of data and models may yield ways to verify 
    the accuracy of data and models, through 'prediction of measurables' - i.e. using modeling to generate data 
    which is in fact directly measurable or available on the real network. For example, fibre link losses or 
    channel power measurements may be used to 'predict' - i.e., to use functional models to calculate - the 
@@ -286,18 +278,20 @@
 
 </section>
 <section anchor="performance-related-functional-design-aspects"><name>Performance-Related Functional Design Aspects</name>
-<t>TO BE ADDED</t>
 
-<t>(COPY OF RELEVANT PARAGRAPH FROM INTRODUCTION: Supporting multiple, concurrently operating MP applications 
+<t>The support of multiple, concurrently operating MP applications 
    - many of which (e.g. optimization-related applications) may require performance prediction on large 
-   numbers of different, detailed scenarios - requires high-performance PODT implementations. Models may 
-   be more or less complicated and compute-intensive; data consumed may be considerable and run to large 
-   archive volumes over time.)</t>
+   numbers of different, detailed scenarios - requires high-performance PODT implementations. Functional models themselves may be more or less complicated and computationally-intensive, and data consumed may be considerable and run to large archive volumes over time.High-performance data collection methodologies are considered in <xref target="I-D.draft-zcz-nmrg-digitaltwin-data-collection"/>. Data comes from other MP applications e.g. network or service configuration, from managed entities – the real network – or from the real network through MP applications.</t>
 
-<t>(IN COMMENTS RE. HIGH-PERFORMANCE DATA COLLECTION, REFER TO MATERIAL FROM 
-   <xref target="I-D.draft-zcz-nmrg-digitaltwin-data-collection"/>. DATA COMES FROM OTHER MP APPLICATIONS E.G. 
-   NETWORK AND SERVICE CONFIGURATION, FROM MANAGED ENTITIES - THE REAL NETWORK - OR FROM THE REAL NETWORK 
-   THROUGH A MP APPLICATION)</t>
+<t>Various techniques can be used to support high-performance PODT to support functional design and implementation. The common idea is to split functional modeling into smaller tasks. Such tasks can be of two types: having dependencies on other tasks, or independent of other tasks. Independent tasks can be assigned to different compute resources (workers), and executed in parallel:</t>
+
+<t><list style="symbols">
+  <t>In an embedded system, a multiple worker-thread strategy can be used to support high performance;</t>
+  <t>On a server-based platform, a PODT may run under a microservices architecture, with workers located in difference processors or on different servers depending on the size and complexity of the emulated network. These distributed computing systems can greatly improve performance and support complex functional modeling of large-scale networks and concurrent sessions supporting multiple MP applications.</t>
+  <t>Processors on real network elements can serve as distributed worker resources as well, performing functional modeling tasks directly related to them, and easy computational requirements on server-based platforms.</t>
+</list></t>
+
+<t>Dependent tasks need orchestration to schedule, synchronize and dispatch compute requests to tasks. Stream processing framework - like Kafka – are effective frameworks to support this.</t>
 
 </section>
 <section anchor="functional-design-implications-of-ndt-functional-extension-beyond-analysis"><name>Functional Design Implications of NDT Functional Extension Beyond Analysis</name>
@@ -305,18 +299,17 @@
 <t>As described in Section 1 (and in e.g. <xref target="I-D.draft-zhou-nmrg-digitaltwin-network-concepts"/>), 
    some functional conceptions of NDTs extend beyond the analytical function of PODTs to encompass
    further management functions, such as closed loop components extending to decision and action. 
-   Such NDTs may thus exercise active control over the physical network, service configurations, etc.<br />
+   Such NDTs may thus exercise active control over the real network, service configurations, etc.<br />
    However, in such cases, the functional equivalent of a PODT lies at the heart of the NDT - i.e. 
    representing the data and analysis closed loop components. Therefore, the PODT-specific functional 
    design aspects considered in this document may be considered to apply to NDTs broadly, with the 
-   distinction that what amount to the MP applications driving and using the equivalent of PODTs - 
-   in the manner described in this document - are partly or wholly encompassed within the logical 
+   qualification that what amount to the MP applications driving and using the functional equivalent of PODTs - in the manner described in this document - are partly or wholly encompassed within the 
    functional perimeter of the NDT.</t>
 
 </section>
 <section anchor="conclusion"><name>Conclusion</name>
 
-<t>TO BE ADDED</t>
+<t>PODTs represent an important class of NDTs in their own right, and their functional equivalent lies at the heart of NDTs with active network-driving capabilities. The ‘what-if’ scenarios analyzed by PODTs are generated by various use case-oriented MP applications. Information and model management among concurrent computational sessions, driven by such MP applications, is thus an important functional design concern. Also important is information and model management to accommodate variations and evolutions among real network co-operating with PODTs. Functional design for high and scalable operational performance is a further important functional design criterion.</t>
 
 </section>
 <section anchor="manageability-considerations"><name>Manageability Considerations</name>
@@ -512,156 +505,167 @@
   </back>
 
 <!-- ##markdown-source:
-H4sIAKZXD2QAA61ceW8jR3b/X5+i4AChBLBpr9d7RIMgS0uaGSUzkqCR1zCC
-ICh2F8nyNLvorm5paMPfPe+q6uqDmiMGbEBD1vmO3zuLWZad5K6w1eZctc06
-+/uJOmlsU5pz9bKt8sa6Spfq0ni7qdTS703eeOXW6s7Ua1fvdJWb7La2pmpM
-oS7txjYw/OHJVh4W0qtVbR7PP2Vw4fJK72DXotbrJvtZV79m1a7eZOt4iqyg
-U2SaT5Htk1ULXixrYLHsm29Onlz9flO7dn+ubkyD/1JvdaU3Zgebq3vjja7z
-rXqFQ05y3ZiNqw/nyjfFid3X56qpW998+803//bNt3AP3+iq+F9dugoOeDD+
-ZG/P1X83Lp8r7+qmNmsPfx12/EfudriL/x+kQNtsXX1+olQG/yvFd7zY1tY3
-br81tfpPuCl95WpgwetWPxmrLuCshaaPzU7b8lzl3ZQFEucfWxq5gM0Gi//U
-1qZSP7n2E1Y94NjFwbXHl1ta+Eq9al233Mu2gXm44oPJt5Ur3cYCUZJ1NU7a
-tG5hTbP+xwY/pKVPsixTeuWbWufNCc74uGio07vbywd/pva1e7SFUV89bXWT
-2fVXCu5THrz1KoMvTWFJUEg8E9mAM88VbgWfbfUeGATfuwZpvzJb/WhdW3tl
-K7U97PHjxuawtbdNq+NyFcsQMNnUjzY3sAhcYb22IAGmyRfqR6MK6/PWExne
-m4Pq5BaOWSiWXaUTDcJb4b6+3e9BivCzXVs2dl8aFKIqb2vgTlMeMgdHh8NU
-G9V6o3LtDe6SCPRdqSujTt/enSm935dwAzr6Ql3qRtP+O1eYUu26KbBxtwfc
-y3uYobYwtoSN5riBBWbUGV4ct36yzVY96trqVWlQyPcOiISTTte126kibJXc
-nHeF09O17aMBNgot/Vx4EvmEcz3QXq9saZuD0jVuU3ngOTB3AdqE0rOzRVGa
-k5N/UddVU7uipb1IlpZR11MBUqc3lw9nICK69E6Bihq4cqEaB8xQOg4NU3nK
-5Q1NISrgqEdbgzyUMJ2oi7zS8A/4RK6jTt26Ab0brT/bb0FE4VqzMPSMlm1A
-iNVaA1HXbVke4F47m3v42KRiCfvgJ72dcPZvv/3HdXa5YLD8detaBkuBQUJB
-GZ4hl82+8b//vlDXIHq1A/bt9AG2USVsCgpH53GAYBVs5u2vyO54CNjZVsQk
-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
-89XvdJRljhkxMHMbifO7c07O+T/D8Z9V6U8AAA==
+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
+v9BWbissQkF0upPUetzn4jP/B74cb07gVwAA
 
 -->
 
