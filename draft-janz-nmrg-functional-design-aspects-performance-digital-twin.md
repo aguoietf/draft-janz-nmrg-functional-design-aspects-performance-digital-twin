@@ -26,13 +26,22 @@ author:
     org: Futurewei Technologies
     email: aihuaguo.ietf@gmail.com
 
-normative:
+informative:
   EDFA1:
     title: Machine Learning-Based EDFA Gain Model
-    author:
-      org: ECOC
+    author: 
+    -
+      ins: Y. You
+      name: Yuren You
+    -
+      ins: Z. Jiang
+      name: Zhiping Jiang
+    -
+      ins: C. Janz
+      name: Christopher Janz
     date: September 2018
-    target: https://doi.org/10.1109/ECOC.2018.8535397
+    seriesinfo: 
+      Web: https://doi.org/10.1109/ECOC.2018.8535397
 
 --- abstract
 

@@ -294,11 +294,11 @@ Internet-Draft     Performance-Oriented Digital Twins         March 2023
    the counter-part to the digital instance is real - i.e. deployed and
    potentially operating - or hypothetical.  For example, in the case of
    OPDTs, the important erbium-doped fibre amplifier (EDFA) network
-   element is a critical focal point for functional modeling.  Such
-   functional models may be - in increasing order of accuracy and
-   precision - generic, type-specific but instance-generic, or both
-   type-and instance-specific.  Where the scenario-based network is
-   fully deployed and operational, the latter models may be available
+   element is a critical focal point for functional modeling.  According
+   to [EDFA1], such functional models may be - in increasing order of
+   accuracy and precision - generic, type-specific but instance-generic,
+   or both type-and instance-specific.  Where the scenario-based network
+   is fully deployed and operational, the latter models may be available
    and will yield more accurate performance predictions than the
    alternatives; whereas if the scenario-based network is entirely
    hypothetical (e.g. green field planning) then only type-specific
@@ -534,6 +534,11 @@ Internet-Draft     Performance-Oriented Digital Twins         March 2023
 
 11.  Informative References
 
+   [EDFA1]    You, Y., Jiang, Z., and C. Janz, "Machine Learning-Based
+              EDFA Gain Model",
+              Web https://doi.org/10.1109/ECOC.2018.8535397, September
+              2018.
+
    [I-D.draft-paillisse-nmrg-performance-digital-twin]
               Paillisse, J., Almasan, P., Ferriol, M., Barlet, P.,
               Cabellos, A., Xiao, S., Shi, X., Cheng, X., Janz, C., Guo,
@@ -544,13 +549,8 @@ Internet-Draft     Performance-Oriented Digital Twins         March 2023
               <https://datatracker.ietf.org/doc/html/draft-paillisse-
               nmrg-performance-digital-twin-01>.
 
-   [I-D.draft-zcz-nmrg-digitaltwin-data-collection]
-              Zhou, C., Chen, D., Martinez-Julia, P., and Q. Ma, "Data
-              Collection Requirements and Technologies for Digital Twin
-              Network", Work in Progress, Internet-Draft, draft-zcz-
-              nmrg-digitaltwin-data-collection-02, 12 March 2023,
-              <https://datatracker.ietf.org/doc/html/draft-zcz-nmrg-
-              digitaltwin-data-collection-02>.
+
+
 
 
 
@@ -561,6 +561,14 @@ Janz, et al.            Expires 15 September 2023              [Page 10]
 
 Internet-Draft     Performance-Oriented Digital Twins         March 2023
 
+
+   [I-D.draft-zcz-nmrg-digitaltwin-data-collection]
+              Zhou, C., Chen, D., Martinez-Julia, P., and Q. Ma, "Data
+              Collection Requirements and Technologies for Digital Twin
+              Network", Work in Progress, Internet-Draft, draft-zcz-
+              nmrg-digitaltwin-data-collection-02, 12 March 2023,
+              <https://datatracker.ietf.org/doc/html/draft-zcz-nmrg-
+              digitaltwin-data-collection-02>.
 
    [I-D.draft-zhou-nmrg-digitaltwin-network-concepts]
               Zhou, C., Yang, H., Duan, X., Lopez, D., Pastor, A., Wu,
@@ -593,14 +601,6 @@ Authors' Addresses
    Futurewei Technologies
 
    Email: aihuaguo.ietf@gmail.com
-
-
-
-
-
-
-
-
 
 
 
