@@ -25,11 +25,10 @@ author:
     name: Aihua Guo
     org: Futurewei Technologies
     email: aihuaguo.ietf@gmail.com
-  -
 
 --- abstract
 
-   Performance-Oriented Digital Twins (PODTs) provide “what-if” analysis – predictions of performance or, 
+   Performance-Oriented Digital Twins (PODTs) provide "what-if" analysis - predictions of performance or, 
    perhaps, of other behaviours in hypothetical situations of network, services, traffic, etc. We discuss
    key functional and design aspects of PODTs in support of multiple, concurrently-operating use case
    Management Plane (MP) applications. Data and model management in concurrent session handling,
@@ -40,107 +39,256 @@ author:
 
 # Introduction
 
-   A Network Digital Twin (NDT) – also referred to as a Digital Network Twin (DNT) – is a virtual replica of a real network (often referred to as a ‘physical’ network) that faithfully mimics the behaviours of the real network [I-D.draft-zhou-nmrg-digitaltwin-network-concepts]. Its role may be limited to synthesizing behavioural information, such as performance predictions, for consumption by other MP functions; such analytical Performance-Oriented Digital Twins (PODTs) are considered in [I-D. draft-paillisse-nmrg-performance-digital-twin]. Alternatively, the NDT may be held to encompass further management functions, such as closed loop components beyond data analysis, and thus to exercise active control over the physical network, services, etc.  In such cases, the functional equivalent of a PODT lies at the heart of the NDT. Therefore, this draft focuses discussion on PODTs; considerations related to functional extension of the NDT role, beyond an analytical one, are considered in Section 6.
+   A Network Digital Twin (NDT) - also referred to as a Digital Network Twin (DNT) - 
+   is a virtual replica of a real network (often referred to as a 'physical' network) 
+   that faithfully mimics the behaviours of the real network 
+   {{?I-D.draft-zhou-nmrg-digitaltwin-network-concepts}}. Its role may be limited
+   to synthesizing behavioural information, such as performance predictions,
+   for consumption by other MP functions; such analytical Performance-Oriented Digital
+   Twins (PODTs) are considered in {{?I-D.draft-paillisse-nmrg-performance-digital-twin}}. 
+   Alternatively, the NDT may be held to encompass further management functions, such as 
+   closed loop components beyond data analysis, and thus to exercise active control over 
+   the physical network, services, etc.  In such cases, the functional equivalent of a 
+   PODT lies at the heart of the NDT. Therefore, this draft focuses discussion on PODTs; 
+   considerations related to functional extension of the NDT role, beyond an analytical 
+   one, are considered in Section 6.
 
-In [I-D. draft-paillisse-nmrg-performance-digital-twin], PODT implementation challenges and certain implementation options - especially concerning key models - are discussed, as are required interfaces and related standards (Sections 4 and 7 of the reference, respectively). This draft looks not at details of models or interfaces but rather at general aspects of functional design. Several functional design principles are considered that may apply generically to PODTs. 
+   In {{?I-D.draft-paillisse-nmrg-performance-digital-twin}}, PODT implementation challenges
+   and certain implementation options - especially concerning key models - are discussed, 
+   as are required interfaces and related standards (Sections 4 and 7 of the reference, 
+   respectively). This draft looks not at details of models or interfaces but rather at 
+   general aspects of functional design. Several functional design principles are considered 
+   that may apply generically to PODTs. 
 
-One such functional design principle is based on the fact that the behavioural or performance prediction information, synthesized from data by a particular PODT, may be used by multiple use case-based MP applications, and these applications may - usefully - operate concurrently. What is different among such applications - or even among successive predictions sought by a single application - is not the nature of the behavioural or performance information yielded. The difference lies, rather, in the details of the scenarios for which prediction information is sought. A PODT supporting multiple concurrent functions and applications requires careful handling of data and modeling to accommodate differences in scenario-driven data used in (what amount to) parallel – or at least, different - computational sessions. This aspect is considered in Section 3.
+   One such functional design principle is based on the fact that the behavioural or performance
+   prediction information, synthesized from data by a particular PODT, may be used by multiple 
+   use case-based MP applications, and these applications may - usefully - operate concurrently.
+   What is different among such applications - or even among successive predictions sought by
+   a single application - is not the nature of the behavioural or performance information yielded.
+   The difference lies, rather, in the details of the scenarios for which prediction information 
+   is sought. A PODT supporting multiple concurrent functions and applications requires careful 
+   handling of data and modeling to accommodate differences in scenario-driven data used in (what
+   amount to) parallel - or at least, different - computational sessions. This aspect is 
+   considered in Section 3.
 
-Another important functional design principle is related to the fact that, in practice, there are likely to be – among real network instances for which use of the PODT is desired, or with respect to evolutions of a given real network instance over time - considerable variations in network details, including network size, equipment types used, available instrumentation or other data sources, etc. Additionally, differences among MP applications, in terms of the nature and degree of hypotheticals involved in the scenarios they generate for performance prediction, may also drive variations in data types, availability, precision, etc. As a practical matter, a PODT should be able to accommodate such variations, while consistently providing the best possible scenario-based performance predictions in support of all MP applications. This, too, has implications for data and model management. This aspect is considered in Section 4.
+   Another important functional design principle is related to the fact that, in practice, there
+   are likely to be - among real network instances for which use of the PODT is desired, or with 
+   respect to evolutions of a given real network instance over time - considerable variations in 
+   network details, including network size, equipment types used, available instrumentation or 
+   other data sources, etc. Additionally, differences among MP applications, in terms of the nature
+   and degree of hypotheticals involved in the scenarios they generate for performance prediction, 
+   may also drive variations in data types, availability, precision, etc. As a practical matter, a
+   PODT should be able to accommodate such variations, while consistently providing the best possible
+   scenario-based performance predictions in support of all MP applications. This, too, has 
+   implications for data and model management. This aspect is considered in Section 4.
 
-Finally, supporting multiple, concurrently operating MP applications – many of which (e.g. optimization-related applications) may require performance prediction on large numbers of different, detailed scenarios – requires high-performance PODT implementations. Models may be more or less complicated and computationally intensive; data consumed may be considerable and run to large archived volumes over time. Performance and scalability considerations are considered in Section 5.
+   Finally, supporting multiple, concurrently operating MP applications - many of which (e.g. 
+   optimization-related applications) may require performance prediction on large numbers of different,
+   detailed scenarios - requires high-performance PODT implementations. Models may be more or less 
+   complicated and computationally intensive; data consumed may be considerable and run to large 
+   archived volumes over time. Performance and scalability considerations are considered in 
+   Section 5.
 
 # Terminology
-Network Digital Twin (NDT): a virtual replica of a real network (often referred to as a ‘physical’ network) that faithfully mimics the behaviours of the real network.
 
-Digital Network Twin (DNT): an alternative term for NDT.
+   - Network Digital Twin (NDT): a virtual replica of a real network (often referred to as a 
+     'physical' network) that faithfully mimics the behaviours of the real network.
 
-Performance-Oriented Digital Twin (PODT):
+   - Digital Network Twin (DNT): an alternative term for NDT.
 
-Management Plane (MP): 
+   - Performance-Oriented Digital Twin (PODT):
 
-Optical Performance Digital Twin (OPDT): 
+   - Management Plane (MP): 
 
-TO BE COMPLETED
+   - Optical Performance Digital Twin (OPDT): 
+
+   - TO BE COMPLETED
 
  
 # Data and Model Management Supporting Concurrent Scenario-Based Computational Sessions
 
-That multiple use case-based MP applications may rely on the same PODT-based analytical function and information that it synthesizes, is illustrated in [I-D. draft-paillisse-nmrg-performance-digital-twin]: for greater simplicity and coherence, what follows refers specifically to the use cases associated with the Optical Performance Digital Twin (OPDT) that are described in that reference (Section 6). However, as discussed in the reference, several of these use cases have generic counter-parts (i.e. are applicable to networks other than optical transmission networks) and, additionally, further use case categories are considered.
+   That multiple use case-based MP applications may rely on the same PODT-based analytical 
+   function and information that it synthesizes, is illustrated in 
+   {{?I-D.draft-paillisse-nmrg-performance-digital-twin}}: for greater simplicity and coherence,
+   what follows refers specifically to the use cases associated with the Optical Performance
+   Digital Twin (OPDT) that are described in that reference (Section 6). However, as discussed
+   in the reference, several of these use cases have generic counter-parts (i.e. are applicable
+   to networks other than optical transmission networks) and, additionally, further use case
+   categories are considered.
 
-With respect to OPDTs, [I-D. draft-paillisse-nmrg-performance-digital-twin] describes the following use cases:
+   With respect to OPDTs, {{?I-D.draft-paillisse-nmrg-performance-digital-twin}} describes
+   the following use cases:
 
-(1)	Optical service (re-)provisioning
+    (1) Optical service (re-)provisioning
 
-(2.a) Optical service/network risk planning
-(2.b) Optical service/network dynamic restoration planning
+    (2.a) Optical service/network risk planning
+    (2.b) Optical service/network dynamic restoration planning
 
-(3) Optical service planning
+    (3) Optical service planning
 
-(4) Optical network planning (incremental/brown field to green field)
+    (4) Optical network planning (incremental/brown field to green field)
 
-(5) Optical services/network optimization
+    (5) Optical services/network optimization
 
-Note that:
-(1) describes an active operation undertaken on deployed and operating optical networks, potentially in an automation or semi-automation context; 
-(2.a) and (2.b) describe potentially coupled analysis & planning operations that may be undertaken periodically or on an event-driven basis on deployed and operating optical networks, potentially in an automation or semi-automation context;
-(3) describes a planning operation, that may be undertaken periodically or on an event-driven basis on deployed and operating optical networks, potentially in an automation or semi-automation context;  
-(4) describes a planning operation, relevant to either deployed and operating optical networks or to hypothetical future optical networks. In either context, optical service planning (3) may be an ‘embedded’ function;
-(5) describes an ‘embedded’ function used in support of (2) through (4).
+   Note that:
+    (1) describes an active operation undertaken on deployed and operating optical 
+    networks, potentially in an automation or semi-automation context; 
+    (2.a) and (2.b) describe potentially coupled analysis & planning operations that may be 
+     undertaken periodically or on an event-driven basis on deployed and operating optical networks, 
+     potentially in an automation or semi-automation context;
+    (3) describes a planning operation, that may be undertaken periodically or on an event-driven
+     basis on deployed and operating optical networks, potentially in an automation or semi-automation 
+     context;  
+    (4) describes a planning operation, relevant to either deployed and operating optical networks 
+     or to hypothetical future optical networks. In either context, optical service planning (3) may 
+     be an 'embedded' function;
+    (5) describes an 'embedded' function used in support of (2) through (4).
 
-All of these use cases may be handled by MP applications that rely on the same OPDT – or at least the same type and style of OPDT - generating the same type and format of transmission performance information (predictions) from the same fundamental data, using fundamentally the same models. The differences consist in the detailed sourcing of data – in particular, between real network and service data and postulated, hypothetical data – and in the detailed usage of models. For example, the OPDT-based modeling implicated in cases (1) and (3) above involves performance, status and other data strictly from the network as-deployed and operating, but also involves at least partly hypothetical postulated optical service states. On the other hand, the OPDT-based modeling implicated in cases (2) and (4) involves performance, equipment specification and status, and other network data that is at least partly (and may be wholly – e.g. green field planning) hypothetical, as well as at least partly (and potentially wholly) hypothetical optical service states. All of these applications, and especially the potentially embedded application case (5), furthermore involve some degree of sequential or parallel presentation of multiple, partly differing scenarios for performance prediction.
+   All of these use cases may be handled by MP applications that rely on the same OPDT - or at least
+   the same type and style of OPDT - generating the same type and format of transmission performance 
+   information (predictions) from the same fundamental data, using fundamentally the same models. The 
+   differences consist in the detailed sourcing of data - in particular, between real network and service 
+   data and postulated, hypothetical data - and in the detailed usage of models. For example, the 
+   OPDT-based modeling implicated in cases (1) and (3) above involves performance, status and other 
+   data strictly from the network as-deployed and operating, but also involves at least partly hypothetical
+   postulated optical service states. On the other hand, the OPDT-based modeling implicated in 
+   cases (2) and (4) involves performance, equipment specification and status, and other network data 
+   that is at least partly (and may be wholly - e.g. green field planning) hypothetical, as well as at 
+   least partly (and potentially wholly) hypothetical optical service states. All of these applications, 
+   and especially the potentially embedded application case (5), furthermore involve some degree of 
+   sequential or parallel presentation of multiple, partly differing scenarios for performance prediction.
 
-Accommodating these realities requires (ideally) concurrent operation of multiple, scenario-based computational ‘sessions’, requiring careful management of the different data sets and models involved in each, as well as of their differing life cycles. Note that whether a given implementation is better described as operating concurrent sessions of the same OPDT, or as concurrently operating multiple OPDT instances of the same type, is largely a distinction without a meaningful difference for purposes of this discussion. 
+   Accommodating these realities requires (ideally) concurrent operation of multiple, scenario-based 
+   computational 'sessions', requiring careful management of the different data sets and models involved 
+   in each, as well as of their differing life cycles. Note that whether a given implementation is better 
+   described as operating concurrent sessions of the same OPDT, or as concurrently operating multiple OPDT
+   instances of the same type, is largely a distinction without a meaningful difference for purposes of 
+   this discussion. 
 
-OPDT (or, more broadly, PODT) computational sessions – in the sense just described – thus make use of network, service and other data that generally only partly map to current (or historical) data from the real twin. However, that ‘real’ data must remain accessible to every session and uncorrupted by the partial substitution of real data with hypothetical data occurring differentially in each session, while being continuously updated and kept current with new data from the real network, management and control systems, etc. There are different implementation methods available to achieve this, but careful design and implementation is critical. 
+   OPDT (or, more broadly, PODT) computational sessions - in the sense just described - thus make use of 
+   network, service and other data that generally only partly map to current (or historical) data from the 
+   real twin. However, that 'real' data must remain accessible to every session and uncorrupted by the partial
+   substitution of real data with hypothetical data occurring differentially in each session, while being 
+   continuously updated and kept current with new data from the real network, management and control systems,
+   etc. There are different implementation methods available to achieve this, but careful design and 
+   implementation is critical. 
 
-Different PODT computational sessions also generally involve different detailed functional model compositions. First, scenarios may involve additions to, deletions from, or other modifications to the set of deployed equipment or other elements, changes in connection configurations, etc. Where network functional models are generated through composition from atomic equipment or element instances and their related models, differential network model composition by scenario-based session is clearly required. Second, details of functional models invoked may differ depending on whether the counter-part to the digital instance is real – i.e. deployed and potentially operating – or hypothetical. For example, in the case of OPDTs, the important erbium-doped fibre amplifier (EDFA) network element is a critical focal point for functional modeling. As discussed in [EDFA], such functional models may be – in increasing order of accuracy and precision - generic, type-specific but instance-generic, or both type- and instance-specific. Where the scenario-based network is fully deployed and operational, the latter models may be available and will yield more accurate performance predictions than the alternatives; whereas if the scenario-based network is entirely hypothetical (e.g. green field planning) then only instance-generic models may be available (and would be preferred to generic models). This issue will be re-visited in Section 4.
+   Different PODT computational sessions also generally involve different detailed functional model 
+   compositions. First, scenarios may involve additions to, deletions from, or other modifications to the 
+   set of deployed equipment or other elements, changes in connection configurations, etc. Where network 
+   functional models are generated through composition from atomic equipment or element instances and their 
+   related models, differential network model composition by scenario-based session is clearly required. 
+   Second, details of functional models invoked may differ depending on whether the counter-part to the 
+   digital instance is real - i.e. deployed and potentially operating - or hypothetical. For example, in 
+   the case of OPDTs, the important erbium-doped fibre amplifier (EDFA) network element is a critical 
+   focal point for functional modeling. As discussed in EDFA, such functional models may be - in increasing 
+   order of accuracy and precision - generic, type-specific but instance-generic, or both type- and 
+   instance-specific. Where the scenario-based network is fully deployed and operational, the latter models 
+   may be available and will yield more accurate performance predictions than the alternatives; whereas 
+   if the scenario-based network is entirely hypothetical (e.g. green field planning) then only 
+   instance-generic models may be available (and would be preferred to generic models). This issue will 
+   be re-visited in Section 4.
 
-Finally, scenario-based computational session life cycles must be managed. Such sessions may be short-lived, e.g. seeking one-time “what-if” scenario-based predictions; or, they may be long-lived, e.g. seeking continuous generation of prediction data as twin-based data evolves. MP application consumers of PODT-generated information control these life cycles, but PODT implementations must be equipped to manage them.
+   Finally, scenario-based computational session life cycles must be managed. Such sessions may be short-lived, 
+   e.g. seeking one-time "what-if" scenario-based predictions; or, they may be long-lived, e.g. seeking 
+   continuous generation of prediction data as twin-based data evolves. MP application consumers of 
+   PODT-generated information control these life cycles, but PODT implementations must be equipped 
+   to manage them.
 
  
 # Data and Model Management Supporting Differences and Evolutions in MP Applications and Physical Networks 
  
-   In practical application, PODTs are likely to be required to operate in conjunction with real networks that vary in a number of ways, including network size, specific equipment types involved, available instrumentation or other data sources, types and quality, etc. Additionally, as discussed in Section 3, differences among MP applications - in terms of the nature and degree of hypotheticals involved in the scenarios they generate for performance prediction - may also drive variations in data types, availability, precision, etc. PODTs should be able to accommodate these variations, while always providing the best possible scenario-based performance predictions. This has implications for both session-based functional model management and data management.
+   In practical application, PODTs are likely to be required to operate in conjunction with real networks that 
+   vary in a number of ways, including network size, specific equipment types involved, available 
+   instrumentation or other data sources, types and quality, etc. Additionally, as discussed in Section 3, 
+   differences among MP applications - in terms of the nature and degree of hypotheticals involved in the 
+   scenarios they generate for performance prediction - may also drive variations in data types, availability,
+   precision, etc. PODTs should be able to accommodate these variations, while always providing the best 
+   possible scenario-based performance predictions. This has implications for both session-based functional 
+   model management and data management.
 
-As a rule, the network functional models ‘composed’ for each MP application-driven PODT computational session, should make use of the most accurate atomic functional models available and usable under the circumstances. For example, as discussed in Section 3, better functional models may be available when a given network element is deployed and operating – its type and potentially instance-specific information thus being known – than when it is a hypothetical element, in which case, only generic or type-specific models may be available. Further, a real network may include equipment types for which type- and instance-specific models are not available; in such cases, generic models must be used, or a selection made from type-specific models thought to best represent the behaviours of the real equipment in question. 
+   As a rule, the network functional models 'composed' for each MP application-driven PODT computational 
+   session, should make use of the most accurate atomic functional models available and usable under the 
+   circumstances. For example, as discussed in Section 3, better functional models may be available when a 
+   given network element is deployed and operating - its type and potentially instance-specific information 
+   thus being known - than when it is a hypothetical element, in which case, only generic or type-specific 
+   models may be available. Further, a real network may include equipment types for which type- and 
+   instance-specific models are not available; in such cases, generic models must be used, or a selection 
+   made from type-specific models thought to best represent the behaviours of the real equipment in question. 
 
-Available data to ‘feed’ functional models may also vary according to circumstances of both real network and MP application-driven scenarios. Functional models and available data should be used in flexible combination to deliver the best possible performance predictions under all circumstances. This idea may be illustrated with an example based on optical transmission networks and OPDTs. Channel input powers to the various optical amplifiers in the network represent important input data to amplifier functional models. If a given modeled amplifier is deployed and operating, then channel input powers – for channels currently operating – may possibly be measured on the real network directly at amplifier inputs. If such measurements are not available, or the optical service channel in question is only a hypothetical, prospective channel, or if the scenario for modeling includes other hypothetical changes to the network or service configuration or state; then alternatives must be sought. For example, if optical fibre link losses are accurately known at proximate channel wavelengths, they may be used in conjunction with measured or modeled channel powers at upstream points to estimate amplifier ingress powers. Note that fibre link losses may have been obtained by direct or indirect measurement – meaning, in the latter case, inferred from available data (e.g. fibre link input and output powers on proximate operating channel wavelengths). Finally, if fibre link losses are not accurately known – for example, in brown or green field planning scenarios, such data may not be available in respect of prospective incremental or new fibre plant – default loss coefficients and hypothesized fibre link lengths may be used to generate fibre link loss estimations.
+   Available data to 'feed' functional models may also vary according to circumstances of both real network 
+   and MP application-driven scenarios. Functional models and available data should be used in flexible 
+   combination to deliver the best possible performance predictions under all circumstances. This idea may
+   be illustrated with an example based on optical transmission networks and OPDTs. Channel input powers
+   to the various optical amplifiers in the network represent important input data to amplifier functional 
+   models. If a given modeled amplifier is deployed and operating, then channel input powers - for channels 
+   currently operating - may possibly be measured on the real network directly at amplifier inputs. If such 
+   measurements are not available, or the optical service channel in question is only a hypothetical, 
+   prospective channel, or if the scenario for modeling includes other hypothetical changes to the network 
+   or service configuration or state; then alternatives must be sought. For example, if optical fibre link 
+   losses are accurately known at proximate channel wavelengths, they may be used in conjunction with measured
+   or modeled channel powers at upstream points to estimate amplifier ingress powers. Note that fibre link 
+   losses may have been obtained by direct or indirect measurement - meaning, in the latter case, inferred 
+   from available data (e.g. fibre link input and output powers on proximate operating channel wavelengths). 
+   Finally, if fibre link losses are not accurately known - for example, in brown or green field planning 
+   scenarios, such data may not be available in respect of prospective incremental or new fibre plant - 
+   default loss coefficients and hypothesized fibre link lengths may be used to generate fibre link loss 
+   estimations.
 
-Again: functional models and available data should be used in flexible combination to deliver the best possible performance predictions under all circumstances. Increased ‘instrumentation’ of the real network – scope and quality of relevant data generation – reduces the scope and degree of required modeling and leads to improved performance prediction results, but modeling may generally be used in combination with available data to close ‘gaps’ in such instrumentation. In respect of any needed input data to elements of session-based composed network functional models, a ‘preference hierarchy’ of data, and sources of data, may be established a priori and used in operation. For example, considering the case of the prior paragraph: if directly measured channel input power is available, use it; if not, and if measured proximate channel fibre link losses have been directly measured, use them; if not, use default loss coefficient for the posited fibre type and length. Data ‘tables’ may be dynamic and built up through increasing measurement experience, and even PODT-based functional modeling experience, with respect to a given real or (partly) hypothetical network. Increasing effective data quality may thus yield improvements in performance prediction quality over time – over and above the impacts of any experiential-based improvement to functional models. 
+   Again: functional models and available data should be used in flexible combination to deliver the best 
+   possible performance predictions under all circumstances. Increased 'instrumentation' of the real network 
+   - scope and quality of relevant data generation - reduces the scope and degree of required modeling and 
+   leads to improved performance prediction results, but modeling may generally be used in combination with 
+   available data to close 'gaps' in such instrumentation. In respect of any needed input data to elements
+   of session-based composed network functional models, a 'preference hierarchy' of data, and sources of 
+   data, may be established a priori and used in operation. For example, considering the case of the prior 
+   paragraph: if directly measured channel input power is available, use it; if not, and if measured proximate 
+   channel fibre link losses have been directly measured, use them; if not, use default loss coefficient for 
+   the posited fibre type and length. Data 'tables' may be dynamic and built up through increasing measurement 
+   experience, and even PODT-based functional modeling experience, with respect to a given real or (partly)
+   hypothetical network. Increasing effective data quality may thus yield improvements in performance prediction
+   quality over time - over and above the impacts of any experiential-based improvement to functional models. 
 
-It should also be noted that flexible conjoint use of data and models may yield available ways to verify the accuracy of data and models, through ‘prediction of measurables’ – i.e. using modeling to generate data which is in fact directly measurable or available on the real network. For example, fibre link losses or channel power measurements may be used to ‘predict’ – i.e., to use functional models to calculate – the optical signal to noise ratio of an operating channel at each point in an amplified transmission span. If such ratios are in fact directly measured by available network instrumentation, then the measured and ‘modeled’ values, in respect of operating optical service channels, may be compared. Differences may be due to either data/measurement inaccuracies, functional model accuracy limitations, or both. Where functional models have been established to be accurate, discrepancies may indicate variations in data – assumed or measured vs. ‘actual’ - that may prove useful in e.g. ‘soft fault’ detection, classification or localization.
+   It should also be noted that flexible conjoint use of data and models may yield available ways to verify 
+   the accuracy of data and models, through 'prediction of measurables' - i.e. using modeling to generate data 
+   which is in fact directly measurable or available on the real network. For example, fibre link losses or 
+   channel power measurements may be used to 'predict' - i.e., to use functional models to calculate - the 
+   optical signal to noise ratio of an operating channel at each point in an amplified transmission span. If 
+   such ratios are in fact directly measured by available network instrumentation, then the measured and 
+   'modeled' values, in respect of operating optical service channels, may be compared. Differences may be 
+   due to either data/measurement inaccuracies, functional model accuracy limitations, or both. Where 
+   functional models have been established to be accurate, discrepancies may indicate variations in data - 
+   assumed or measured vs. 'actual' - that may prove useful in e.g. 'soft fault' detection, 
+   classification or localization.
 
- 
-~~~~ 
-      __________                                             ________
-     /          \                                           /        \
-    | Enterprise |          ___________                    | Vertical |
-    |    CPE     |\        /           \          +-----+ /|  Cloud   |
-     \__________/  \ +---+/             \+---+    |Cloud|/  \________/
-                    \|O-A*               *O-E|----+ GW  |
-                     +---+               +---+    +-----+
-       ________          |       OTN     |                    _______
-      /        \     +---+               +---+    +-----+    /       \
-     | Vertical |----+O-A*               *O-E|----+Cloud|---| Private |
-     |   CPE    |    +---+\             /+---+    | GW  |   | Cloud   |
-      \________/           \___________/          +-----+    \_______/
- 
-~~~~
-{: #fig-cloud-access-optical title="Multi-cloud access through an OTN"}
- 
+
  
 # Performance-Related Functional Design Aspects
- TO BE ADDED 
+  TO BE ADDED 
 
-(COPY OF RELEVANT PARAGRAPH FROM INTRODUCTION: Supporting multiple, concurrently operating MP applications – many of which (e.g. optimization-related applications) may require performance prediction on large numbers of different, detailed scenarios – requires high-performance PODT implementations. Models may be more or less complicated and compute-intensive; data consumed may be considerable and run to large archive volumes over time.)
+  (COPY OF RELEVANT PARAGRAPH FROM INTRODUCTION: Supporting multiple, concurrently operating MP applications 
+   - many of which (e.g. optimization-related applications) may require performance prediction on large 
+   numbers of different, detailed scenarios - requires high-performance PODT implementations. Models may 
+   be more or less complicated and compute-intensive; data consumed may be considerable and run to large 
+   archive volumes over time.)
 
-(IN COMMENTS RE. HIGH-PERFORMANCE DATA COLLECTION, REFER TO MATERIAL FROM [I-D. draft-zcz-nmrg-digitaltwin-data-collection]. DATA COMES FROM OTHER MP APPLICATIONS E.G. NETWORK AND SERVICE CONFIGURATION, FROM MANAGED ENTITIES – THE REAL NETWORK – OR FROM THE REAL NETWORK THROUGH A MP APPLICATION)
+   (IN COMMENTS RE. HIGH-PERFORMANCE DATA COLLECTION, REFER TO MATERIAL FROM 
+   {{?I-D.draft-zcz-nmrg-digitaltwin-data-collection}}. DATA COMES FROM OTHER MP APPLICATIONS E.G. 
+   NETWORK AND SERVICE CONFIGURATION, FROM MANAGED ENTITIES - THE REAL NETWORK - OR FROM THE REAL NETWORK 
+   THROUGH A MP APPLICATION)
  
 # Functional Design Implications of NDT Functional Extension Beyond Analysis
 
-As described in Section 1 (and in e.g. [I-D.draft-zhou-nmrg-digitaltwin-network-concepts]), some functional conceptions of NDTs extend beyond the analytical function of PODTs to encompass
-further management functions, such as closed loop components extending to decision and action. Such NDTs may thus exercise active control over the physical network, service configurations, etc.  However, in such cases, the functional equivalent of a PODT lies at the heart of the NDT – i.e. representing the data and analysis closed loop components. Therefore, the PODT-specific functional design aspects considered in this document may be considered to apply to NDTs broadly, with the distinction that what amount to the MP applications driving and using the equivalent of PODTs – in the manner described in this document – are partly or wholly encompassed within the logical functional perimeter of the NDT.
+   As described in Section 1 (and in e.g. {{?I-D.draft-zhou-nmrg-digitaltwin-network-concepts}}), 
+   some functional conceptions of NDTs extend beyond the analytical function of PODTs to encompass
+   further management functions, such as closed loop components extending to decision and action. 
+   Such NDTs may thus exercise active control over the physical network, service configurations, etc.  
+   However, in such cases, the functional equivalent of a PODT lies at the heart of the NDT - i.e. 
+   representing the data and analysis closed loop components. Therefore, the PODT-specific functional 
+   design aspects considered in this document may be considered to apply to NDTs broadly, with the 
+   distinction that what amount to the MP applications driving and using the equivalent of PODTs - 
+   in the manner described in this document - are partly or wholly encompassed within the logical 
+   functional perimeter of the NDT.
 
 # Conclusion
 
@@ -152,13 +300,7 @@ further management functions, such as closed loop components extending to decisi
  
 # Security Considerations
  
-   This document analyzes the requirements and gaps in connecting to cloud DCs over optical networks
-   without defining new protocols or interfaces. Therefore, this document introduces no new security
-   considerations to the control or management plane of OTN. Risks presented by existing OTN control
-   plane are described in {{!RFC4203}} and {{!RFC4328}}, and risks presented by existing northbound and
-   southbound control interfaces in general are described in {{!RFC8453}}. Moreover, the data communication
-   network (DCN) for OTN control plane protocols are encapsulated in fibers, which providers a much
-   better security environment for running the protocols.
+   TBD
 
 # IANA Considerations
  
