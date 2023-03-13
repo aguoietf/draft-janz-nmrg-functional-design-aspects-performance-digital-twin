@@ -28,12 +28,7 @@ author:
 
 --- abstract
 
-   Performance-Oriented Digital Twins (PODTs) provide "what-if" analysis - predictions of performance or, 
-   perhaps, of other behaviours in hypothetical situations of network, services, traffic, etc. We discuss
-   key functional and design aspects of PODTs in support of multiple, concurrently-operating use case
-   Management Plane (MP) applications. Data and model management in concurrent session handling,
-   inter-working with variable composition (from data and functional model perspectives) networks,
-   performance and scalability are considered.
+   Performance-Oriented Digital Twins (PODTs) provide "what-if" analysis - predictions of performance or, perhaps, of other behaviours in hypothetical situations of network, services, traffic, etc. Key functional and design aspects of PODTs in support of multiple, concurrently-operating use case Management Plane (MP) applications are discussed. Data and model management in concurrent session handling, inter-working with variable composition (from data and functional model perspectives) networks, performance and scalability are considered.
  
 --- middle
 
@@ -54,7 +49,7 @@ author:
    one, are considered in Section 6.
 
    In {{?I-D.draft-paillisse-nmrg-performance-digital-twin}}, PODT implementation challenges
-   and certain implementation options - especially concerning key models - are discussed, 
+   and certain implementation options - especially concerning key functional models - are discussed, 
    as are required interfaces and related standards (Sections 4 and 7 of the reference, 
    respectively). This draft looks not at details of models or interfaces but rather at 
    general aspects of functional design. Several functional design principles are considered 
@@ -66,7 +61,7 @@ author:
    What is different among such applications - or even among successive predictions sought by
    a single application - is not the nature of the behavioural or performance information yielded.
    The difference lies, rather, in the details of the scenarios for which prediction information 
-   is sought. A PODT supporting multiple concurrent functions and applications requires careful 
+   is sought. A PODT supporting multiple concurrent MP functions and applications requires careful 
    handling of data and modeling to accommodate differences in scenario-driven data used in (what
    amount to) parallel - or at least, different - computational sessions. This aspect is 
    considered in Section 3.
@@ -86,7 +81,7 @@ author:
    optimization-related applications) may require performance prediction on large numbers of different,
    detailed scenarios - requires high-performance PODT implementations. Models may be more or less 
    complicated and computationally intensive; data consumed may be considerable and run to large 
-   archived volumes over time. Performance and scalability considerations are considered in 
+   archived volumes over time. Performance and scalability considerations are discussed in 
    Section 5.
 
 # Terminology
@@ -96,13 +91,9 @@ author:
 
    - Digital Network Twin (DNT): an alternative term for NDT.
 
-   - Performance-Oriented Digital Twin (PODT):
+   - Performance-Oriented Digital Twin (PODT): An analytical NDT generates performance-oriented information based on "what-if" scenarios specified by other Management Plane applications.
 
-   - Management Plane (MP): 
-
-   - Optical Performance Digital Twin (OPDT): 
-
-   - TO BE COMPLETED
+   - Optical Performance Digital Twin (OPDT): A PODT that generates optical transmission performance predictions.
 
  
 # Data and Model Management Supporting Concurrent Scenario-Based Computational Sessions
@@ -181,18 +172,17 @@ author:
    Second, details of functional models invoked may differ depending on whether the counter-part to the 
    digital instance is real - i.e. deployed and potentially operating - or hypothetical. For example, in 
    the case of OPDTs, the important erbium-doped fibre amplifier (EDFA) network element is a critical 
-   focal point for functional modeling. As discussed in EDFA, such functional models may be - in increasing 
-   order of accuracy and precision - generic, type-specific but instance-generic, or both type- and 
+   focal point for functional modeling. Such functional models may be - in increasing 
+   order of accuracy and precision - generic, type-specific but instance-generic, or both type-and 
    instance-specific. Where the scenario-based network is fully deployed and operational, the latter models 
    may be available and will yield more accurate performance predictions than the alternatives; whereas 
    if the scenario-based network is entirely hypothetical (e.g. green field planning) then only 
-   instance-generic models may be available (and would be preferred to generic models). This issue will 
+   type-specific models may be available (and would be preferred to generic models). This issue will 
    be re-visited in Section 4.
 
    Finally, scenario-based computational session life cycles must be managed. Such sessions may be short-lived, 
    e.g. seeking one-time "what-if" scenario-based predictions; or, they may be long-lived, e.g. seeking 
-   continuous generation of prediction data as twin-based data evolves. MP application consumers of 
-   PODT-generated information control these life cycles, but PODT implementations must be equipped 
+   continuous generation of prediction data as real twin-sourced data evolves. MP application consumers of PODT-generated information control these life cycles, but PODT implementations must be equipped 
    to manage them.
 
  
@@ -247,9 +237,9 @@ author:
    the posited fibre type and length. Data 'tables' may be dynamic and built up through increasing measurement 
    experience, and even PODT-based functional modeling experience, with respect to a given real or (partly)
    hypothetical network. Increasing effective data quality may thus yield improvements in performance prediction
-   quality over time - over and above the impacts of any experiential-based improvement to functional models. 
+   quality over time - over and above the impacts of any experience-driven improvement to functional models. 
 
-   It should also be noted that flexible conjoint use of data and models may yield available ways to verify 
+   It should also be noted that flexible conjoint use of data and models may yield ways to verify 
    the accuracy of data and models, through 'prediction of measurables' - i.e. using modeling to generate data 
    which is in fact directly measurable or available on the real network. For example, fibre link losses or 
    channel power measurements may be used to 'predict' - i.e., to use functional models to calculate - the 
@@ -264,35 +254,34 @@ author:
 
  
 # Performance-Related Functional Design Aspects
-  TO BE ADDED 
 
-  (COPY OF RELEVANT PARAGRAPH FROM INTRODUCTION: Supporting multiple, concurrently operating MP applications 
+   The support of multiple, concurrently operating MP applications 
    - many of which (e.g. optimization-related applications) may require performance prediction on large 
-   numbers of different, detailed scenarios - requires high-performance PODT implementations. Models may 
-   be more or less complicated and compute-intensive; data consumed may be considerable and run to large 
-   archive volumes over time.)
-
-   (IN COMMENTS RE. HIGH-PERFORMANCE DATA COLLECTION, REFER TO MATERIAL FROM 
-   {{?I-D.draft-zcz-nmrg-digitaltwin-data-collection}}. DATA COMES FROM OTHER MP APPLICATIONS E.G. 
-   NETWORK AND SERVICE CONFIGURATION, FROM MANAGED ENTITIES - THE REAL NETWORK - OR FROM THE REAL NETWORK 
-   THROUGH A MP APPLICATION)
+   numbers of different, detailed scenarios - requires high-performance PODT implementations. Functional models themselves may be more or less complicated and computationally-intensive, and data consumed may be considerable and run to large archive volumes over time.High-performance data collection methodologies are considered in {{?I-D.draft-zcz-nmrg-digitaltwin-data-collection}}. Data comes from other MP applications e.g. network or service configuration, from managed entities – the real network – or from the real network through MP applications.
+   
+   Various techniques can be used to support high-performance PODT to support functional design and implementation. The common idea is to split functional modeling into smaller tasks. Such tasks can be of two types: having dependencies on other tasks, or independent of other tasks. Independent tasks can be assigned to different compute resources (workers), and executed in parallel:
  
+   - In an embedded system, a multiple worker-thread strategy can be used to support high performance;
+   - On a server-based platform, a PODT may run under a microservices architecture, with workers located in difference processors or on different servers depending on the size and complexity of the emulated network. These distributed computing systems can greatly improve performance and support complex functional modeling of large-scale networks and concurrent sessions supporting multiple MP applications.
+   - Processors on real network elements can serve as distributed worker resources as well, performing functional modeling tasks directly related to them, and easy computational requirements on server-based platforms.
+
+   Dependent tasks need orchestration to schedule, synchronize and dispatch compute requests to tasks. Stream processing framework - like Kafka – are effective frameworks to support this.
+   
 # Functional Design Implications of NDT Functional Extension Beyond Analysis
 
    As described in Section 1 (and in e.g. {{?I-D.draft-zhou-nmrg-digitaltwin-network-concepts}}), 
    some functional conceptions of NDTs extend beyond the analytical function of PODTs to encompass
    further management functions, such as closed loop components extending to decision and action. 
-   Such NDTs may thus exercise active control over the physical network, service configurations, etc.  
+   Such NDTs may thus exercise active control over the real network, service configurations, etc.  
    However, in such cases, the functional equivalent of a PODT lies at the heart of the NDT - i.e. 
    representing the data and analysis closed loop components. Therefore, the PODT-specific functional 
    design aspects considered in this document may be considered to apply to NDTs broadly, with the 
-   distinction that what amount to the MP applications driving and using the equivalent of PODTs - 
-   in the manner described in this document - are partly or wholly encompassed within the logical 
+   qualification that what amount to the MP applications driving and using the functional equivalent of PODTs - in the manner described in this document - are partly or wholly encompassed within the 
    functional perimeter of the NDT.
 
 # Conclusion
 
-   TO BE ADDED
+   PODTs represent an important class of NDTs in their own right, and their functional equivalent lies at the heart of NDTs with active network-driving capabilities. The ‘what-if’ scenarios analyzed by PODTs are generated by various use case-oriented MP applications. Information and model management among concurrent computational sessions, driven by such MP applications, is thus an important functional design concern. Also important is information and model management to accommodate variations and evolutions among real network co-operating with PODTs. Functional design for high and scalable operational performance is a further important functional design criterion.
 
 # Manageability Considerations
  
