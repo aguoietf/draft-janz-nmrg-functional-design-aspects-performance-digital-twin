@@ -4,7 +4,7 @@
 
 Network Management Research Group                                C. Janz
 Internet-Draft                                                    Y. You
-Intended status: Standards Track                           Huawei Canada
+Intended status: Informational                             Huawei Canada
 Expires: 15 September 2023                                        A. Guo
                                                   Futurewei Technologies
                                                            14 March 2023
