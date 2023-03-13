@@ -26,6 +26,14 @@ author:
     org: Futurewei Technologies
     email: aihuaguo.ietf@gmail.com
 
+normative:
+  EDFA1:
+    title: Machine Learning-Based EDFA Gain Model
+    author:
+      org: ECOC
+    date: September 2018
+    target: https://doi.org/10.1109/ECOC.2018.8535397
+
 --- abstract
 
    Performance-Oriented Digital Twins (PODTs) provide "what-if" analysis - predictions of performance or, perhaps, of other behaviours in hypothetical situations of network, services, traffic, etc. Key functional and design aspects of PODTs in support of multiple, concurrently-operating use case Management Plane (MP) applications are discussed. Data and model management in concurrent session handling, inter-working with variable composition (from data and functional model perspectives) networks, performance and scalability are considered.
@@ -172,7 +180,7 @@ author:
    Second, details of functional models invoked may differ depending on whether the counter-part to the 
    digital instance is real - i.e. deployed and potentially operating - or hypothetical. For example, in 
    the case of OPDTs, the important erbium-doped fibre amplifier (EDFA) network element is a critical 
-   focal point for functional modeling. Such functional models may be - in increasing 
+   focal point for functional modeling. According to {{EDFA1}}, such functional models may be - in increasing 
    order of accuracy and precision - generic, type-specific but instance-generic, or both type-and 
    instance-specific. Where the scenario-based network is fully deployed and operational, the latter models 
    may be available and will yield more accurate performance predictions than the alternatives; whereas 
